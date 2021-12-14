@@ -17,14 +17,15 @@ import com.example.ohjelmistoprojekti.domain.OpenUserAnswer;
 import com.example.ohjelmistoprojekti.domain.OpenUserAnswerRepository;
 import com.example.ohjelmistoprojekti.domain.Question;
 import com.example.ohjelmistoprojekti.domain.QuestionRepository;
+import com.example.ohjelmistoprojekti.domain.Respondent;
+import com.example.ohjelmistoprojekti.domain.RespondentRepository;
 import com.example.ohjelmistoprojekti.domain.Survey;
 import com.example.ohjelmistoprojekti.domain.SurveyRepository;
-import com.example.ohjelmistoprojekti.domain.Respondent;
 import com.example.ohjelmistoprojekti.domain.UserAnswer;
 import com.example.ohjelmistoprojekti.domain.UserAnswerRepository;
-import com.example.ohjelmistoprojekti.domain.RespondentRepository;
 
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 @RestController
 public class AppController {
 
@@ -41,23 +42,25 @@ public class AppController {
 	@Autowired
 	private RespondentRepository respRepo;
 
-
 //Methods for SURVEYS
 
 	@RequestMapping(value = "/apisurveys", method = RequestMethod.GET)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public List<Survey> surveyListRest() {
 		return (List<Survey>) sRepo.findAll();
 	}
 
 	@RequestMapping(value = "/apisurveys/{id}", method = RequestMethod.GET)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public Optional<Survey> findSurveyRest(@PathVariable("id") Long surveyID) {
 		return sRepo.findById(surveyID);
 	}
 
 	@RequestMapping(value = "/apisurveys", method = RequestMethod.POST)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public Survey saveSurveyRest(@RequestBody Survey survey) {
 		return sRepo.save(survey);
 	}
@@ -65,7 +68,8 @@ public class AppController {
 	// if no survey with such id found, the new empty survey with given id is
 	// created
 	@RequestMapping(value = "/apisurveys/{id}", method = RequestMethod.PUT)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public Survey updateSurveyRest(@RequestBody Survey newSurvey, @PathVariable Long id) {
 		return sRepo.findById(id).map(survey -> {
 			survey.setSurveyDesc(newSurvey.getSurveyDesc());
@@ -77,7 +81,8 @@ public class AppController {
 	}
 
 	@RequestMapping(value = "/apisurveys/{id}", method = RequestMethod.DELETE)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public String deleteSurveyRest(@PathVariable("id") Long surveyID) {
 		sRepo.deleteById(surveyID);
 		return "Survey " + surveyID + " deleted";
@@ -86,25 +91,29 @@ public class AppController {
 //Methods for QUESTIONS
 
 	@RequestMapping(value = "/apiquestions", method = RequestMethod.GET)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public List<Question> questionListRest() {
 		return (List<Question>) qRepo.findAll();
 	}
 
 	@RequestMapping(value = "/apiquestions/{id}", method = RequestMethod.GET)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public Optional<Question> findQuestionRest(@PathVariable("id") Long questionID) {
 		return qRepo.findById(questionID);
 	}
 
 	@RequestMapping(value = "/apiquestions", method = RequestMethod.POST)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public Question saveQuestionRest(@RequestBody Question question) {
 		return qRepo.save(question);
 	}
 
 	@RequestMapping(value = "/saveallquestions", method = RequestMethod.POST)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public List<Question> saveAllQuestionsRest(@RequestBody List<Question> questions) {
 		List<Question> questionResponse = (List<Question>) qRepo.saveAll(questions);
 		return questionResponse;
@@ -112,7 +121,8 @@ public class AppController {
 
 	// if no question with such id found, the new question with given id is created
 	@RequestMapping(value = "/apiquestions/{id}", method = RequestMethod.PUT)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public Question updateQustionRest(@RequestBody Question newQuestion, @PathVariable Long id) {
 		return qRepo.findById(id).map(question -> {
 			question.setQuestion(newQuestion.getQuestion());
@@ -126,7 +136,8 @@ public class AppController {
 	}
 
 	@RequestMapping(value = "/apiquestions/{id}", method = RequestMethod.DELETE)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public String deleteQuestionRest(@PathVariable Long id) {
 		qRepo.deleteById(id);
 		return "Question " + id + " deleted";
@@ -135,28 +146,32 @@ public class AppController {
 //Methods for ANSWERS
 	// list all answers
 	@RequestMapping(value = "/apianswers", method = RequestMethod.GET)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public List<Answer> answerListRest() {
 		return (List<Answer>) aRepo.findAll();
 	}
 
 	// find answer by id
 	@RequestMapping(value = "/apianswers/{id}", method = RequestMethod.GET)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public Optional<Answer> findAnswerRest(@PathVariable("id") Long answerID) {
 		return aRepo.findById(answerID);
 	}
 
 	// save one answer
 	@RequestMapping(value = "/apianswers", method = RequestMethod.POST)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public Answer saveAnswerRest(@RequestBody Answer answer) {
 		return aRepo.save(answer);
 	}
 
 	// save all answers into a list
 	@RequestMapping(value = "/saveallanswers", method = RequestMethod.POST)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public List<Answer> saveAllAnswersRest(@RequestBody List<Answer> answers) {
 		List<Answer> answerResponse = (List<Answer>) aRepo.saveAll(answers);
 		return answerResponse;
@@ -164,7 +179,8 @@ public class AppController {
 
 	// if no answer with such id found, the new answer with given id is created
 	@RequestMapping(value = "/apianswers/{id}", method = RequestMethod.PUT)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public Answer updateANswerRest(@RequestBody Answer newAnswer, @PathVariable Long id) {
 		return aRepo.findById(id).map(answer -> {
 			answer.setAnswer(newAnswer.getAnswer());
@@ -178,7 +194,8 @@ public class AppController {
 
 	// delete answer by id
 	@RequestMapping(value = "/apianswers/{id}", method = RequestMethod.DELETE)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public String deleteAnswerRest(@PathVariable Long id) {
 		aRepo.deleteById(id);
 		return "Answer " + id + " deleted";
@@ -186,32 +203,37 @@ public class AppController {
 
 //Methods for USERANSWERS
 	@RequestMapping(value = "/apiuseranswers", method = RequestMethod.GET)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public List<UserAnswer> uAnswerListRest() {
 		return (List<UserAnswer>) uaRepo.findAll();
 	}
 
 	@RequestMapping(value = "/apiuseranswers/{id}", method = RequestMethod.GET)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public Optional<UserAnswer> findUserAnswerRest(@PathVariable("id") Long uanswerID) {
 		return uaRepo.findById(uanswerID);
 	}
 
 	@RequestMapping(value = "/apiuseranswers", method = RequestMethod.POST)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public UserAnswer saveUAnswerRest(@RequestBody UserAnswer uAnswer) {
 		return uaRepo.save(uAnswer);
 	}
 
 	@RequestMapping(value = "/apiuseranswers/{id}", method = RequestMethod.DELETE)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public String deleteUAnswerRest(@PathVariable Long id) {
 		uaRepo.deleteById(id);
 		return "UserAnswer " + id + " deleted";
 	}
 
 	@RequestMapping(value = "/savealluseranswers", method = RequestMethod.POST)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public List<UserAnswer> saveAllUserAnswersRest(@RequestBody List<UserAnswer> userAnswers) {
 		List<UserAnswer> uanswerResponse = (List<UserAnswer>) uaRepo.saveAll(userAnswers);
 		return uanswerResponse;
@@ -219,32 +241,37 @@ public class AppController {
 
 	// Methods for RESPONDENTS
 	@RequestMapping(value = "/apirespondents", method = RequestMethod.GET)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public List<Respondent> respListRest() {
 		return (List<Respondent>) respRepo.findAll();
 	}
 
 	@RequestMapping(value = "/apirespondents/{id}", method = RequestMethod.GET)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public Optional<Respondent> findRespRest(@PathVariable("id") Long id) {
 		return respRepo.findById(id);
 	}
 
 	@RequestMapping(value = "/apirespondents", method = RequestMethod.POST)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public Respondent saveRespRest(@RequestBody Respondent respondent) {
 		return respRepo.save(respondent);
 	}
 
 	@RequestMapping(value = "/apirespondents/{id}", method = RequestMethod.DELETE)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public String deleteRespRest(@PathVariable Long id) {
 		respRepo.deleteById(id);
 		return "Respondent " + id + " deleted";
 	}
 
 	@RequestMapping(value = "/apirespondents/{id}", method = RequestMethod.PUT)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public Respondent updateRespRest(@RequestBody Respondent newResp, @PathVariable Long id) {
 		return respRepo.findById(id).map(respondent -> {
 			respondent.setRespondentName(newResp.getRespondentName());
@@ -291,7 +318,8 @@ public class AppController {
 
 	// list all openuseranswers
 	@RequestMapping(value = "/apiouanswers", method = RequestMethod.GET)
-	@CrossOrigin(origins = "http://localhost:3000")
+	// @CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "https://daissurvey.herokuapp.com/")
 	public List<OpenUserAnswer> ouaListRest() {
 		return (List<OpenUserAnswer>) oUaRepo.findAll();
 	}
@@ -325,7 +353,5 @@ public class AppController {
 		oUaRepo.deleteById(id);
 		return "OpenUserAnswer " + id + " deleted";
 	}
-	
-	
 
 }
